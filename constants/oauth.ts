@@ -28,6 +28,8 @@ export const API_BASE_URL = env.apiBaseUrl;
  * Get the API base URL, deriving from current hostname if not set.
  * Metro runs on 8081, API server runs on 3000.
  * URL pattern: https://PORT-sandboxid.region.domain
+ *
+ * In production (Vercel), EXPO_PUBLIC_API_BASE_URL must be set to the Railway backend URL.
  */
 export function getApiBaseUrl(): string {
   // If API_BASE_URL is set, use it
@@ -35,7 +37,10 @@ export function getApiBaseUrl(): string {
     return API_BASE_URL.replace(/\/$/, "");
   }
 
-  // On web, derive from current hostname by replacing port 8081 with 3000
+  // On web, derive from current hostname by replacing port 8081 with 3000.
+  // This only works in the Manus sandbox dev environment where both services share a
+  // subdomain prefix (e.g. 8081-xxx → 3000-xxx). It is intentionally skipped in
+  // production to prevent silent misrouting.
   if (ReactNative.Platform.OS === "web" && typeof window !== "undefined" && window.location) {
     const { protocol, hostname } = window.location;
     // Pattern: 8081-sandboxid.region.domain -> 3000-sandboxid.region.domain
@@ -45,7 +50,17 @@ export function getApiBaseUrl(): string {
     }
   }
 
-  // Fallback to empty (will use relative URL)
+  // Fallback to empty string (relative URL). In a static Vercel deployment this means
+  // API calls will fail because the frontend and backend are on separate origins.
+  // Always set EXPO_PUBLIC_API_BASE_URL in production.
+  if (process.env.NODE_ENV === "production") {
+    console.warn(
+      "[api] EXPO_PUBLIC_API_BASE_URL is not set. API calls will use relative URLs " +
+        "and will fail in a static Vercel deployment. " +
+        "Set EXPO_PUBLIC_API_BASE_URL to your Railway backend URL in Vercel environment variables.",
+    );
+  }
+
   return "";
 }
 
