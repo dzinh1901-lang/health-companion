@@ -587,6 +587,7 @@ const AboutUs = () => {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: '-80px' }}
+          className="about-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
