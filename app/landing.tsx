@@ -18,7 +18,11 @@ import {
   BookOpen,
   BarChart3,
   MessageSquare,
+  LogIn,
+  LayoutDashboard,
 } from 'lucide-react';
+import { trpc } from '@/lib/trpc';
+import { useAuth } from '@/hooks/use-auth';
 
 // --- Theme Configuration ---
 const theme = {
@@ -32,6 +36,7 @@ const theme = {
   accentDark: '#B8A48A',
   border: 'rgba(111,98,87,0.14)',
   gold: '#C9A96E',
+  error: '#d97706',
 };
 
 // --- Font Injection ---
@@ -141,6 +146,7 @@ const HairlineDivider = ({ style = {} }: { style?: React.CSSProperties }) => (
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user, loading: authLoading } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -234,34 +240,66 @@ const Navigation = () => {
                 {link}
               </a>
             ))}
-            <a
-              href="#contact"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                padding: '10px 24px',
-                borderRadius: 6,
-                background: 'transparent',
-                color: theme.textPrimary,
-                fontSize: 12,
-                fontWeight: 600,
-                textDecoration: 'none',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                border: `1.5px solid ${theme.textPrimary}`,
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter={(e) => {
-                (e.target as HTMLElement).style.background = theme.textPrimary;
-                (e.target as HTMLElement).style.color = theme.bg;
-              }}
-              onMouseLeave={(e) => {
-                (e.target as HTMLElement).style.background = 'transparent';
-                (e.target as HTMLElement).style.color = theme.textPrimary;
-              }}
-            >
-              Join Waitlist
-            </a>
+            
+            {/* Conditional: Show Dashboard if authenticated, otherwise Join Waitlist */}
+            {!authLoading && user ? (
+              <a
+                href="/dashboard"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '10px 24px',
+                  borderRadius: 6,
+                  background: theme.textPrimary,
+                  color: theme.bg,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  textDecoration: 'none',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={(e) => {
+                  (e.target as HTMLElement).style.opacity = '0.9';
+                }}
+                onMouseLeave={(e) => {
+                  (e.target as HTMLElement).style.opacity = '1';
+                }}
+              >
+                <LayoutDashboard size={14} />
+                Dashboard
+              </a>
+            ) : (
+              <a
+                href="#contact"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '10px 24px',
+                  borderRadius: 6,
+                  background: 'transparent',
+                  color: theme.textPrimary,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  textDecoration: 'none',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  border: `1.5px solid ${theme.textPrimary}`,
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={(e) => {
+                  (e.target as HTMLElement).style.background = theme.textPrimary;
+                  (e.target as HTMLElement).style.color = theme.bg;
+                }}
+                onMouseLeave={(e) => {
+                  (e.target as HTMLElement).style.background = 'transparent';
+                  (e.target as HTMLElement).style.color = theme.textPrimary;
+                }}
+              >
+                Join Waitlist
+              </a>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -316,24 +354,50 @@ const Navigation = () => {
                     {link}
                   </a>
                 ))}
-                <a
-                  href="#contact"
-                  onClick={() => setMenuOpen(false)}
-                  style={{
-                    display: 'inline-block',
-                    marginTop: 16,
-                    padding: '12px 24px',
-                    borderRadius: 100,
-                    background: theme.textPrimary,
-                    color: theme.bg,
-                    fontSize: 15,
-                    fontWeight: 600,
-                    textDecoration: 'none',
-                    textAlign: 'center',
-                  }}
-                >
-                  Join the Waitlist
-                </a>
+                {/* Conditional mobile CTA */}
+                {!authLoading && user ? (
+                  <a
+                    href="/dashboard"
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      marginTop: 16,
+                      padding: '12px 24px',
+                      borderRadius: 100,
+                      background: theme.textPrimary,
+                      color: theme.bg,
+                      fontSize: 15,
+                      fontWeight: 600,
+                      textDecoration: 'none',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <LayoutDashboard size={16} />
+                    Go to Dashboard
+                  </a>
+                ) : (
+                  <a
+                    href="#contact"
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                      display: 'inline-block',
+                      marginTop: 16,
+                      padding: '12px 24px',
+                      borderRadius: 100,
+                      background: theme.textPrimary,
+                      color: theme.bg,
+                      fontSize: 15,
+                      fontWeight: 600,
+                      textDecoration: 'none',
+                      textAlign: 'center',
+                    }}
+                  >
+                    Join the Waitlist
+                  </a>
+                )}
               </div>
             </Container>
           </motion.div>
@@ -361,6 +425,7 @@ const Navigation = () => {
 const Hero = () => {
   const { scrollY } = useScroll();
   const bgY = useTransform(scrollY, [0, 500], [0, 80]);
+  const { user, loading: authLoading } = useAuth();
 
   return (
     <Section
@@ -482,27 +547,53 @@ const Hero = () => {
             variants={fadeUp}
             style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 8 }}
           >
-            <motion.a
-              href="#contact"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                padding: '16px 32px',
-                borderRadius: 6,
-                background: '#B8977A',
-                color: '#fff',
-                fontSize: 13,
-                fontWeight: 600,
-                textDecoration: 'none',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-              }}
-            >
-              Join the Waitlist
-            </motion.a>
+            {/* Primary CTA: Dashboard for authenticated, Waitlist for others */}
+            {!authLoading && user ? (
+              <motion.a
+                href="/dashboard"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '16px 32px',
+                  borderRadius: 6,
+                  background: '#B8977A',
+                  color: '#fff',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  textDecoration: 'none',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                <LayoutDashboard size={16} />
+                Go to Dashboard
+              </motion.a>
+            ) : (
+              <motion.a
+                href="#contact"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '16px 32px',
+                  borderRadius: 6,
+                  background: '#B8977A',
+                  color: '#fff',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  textDecoration: 'none',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Join the Waitlist
+              </motion.a>
+            )}
             <motion.a
               href="#ecosystem"
               whileHover={{ scale: 1.02 }}
@@ -1550,17 +1641,27 @@ const ClientSuccess = () => {
 const CTA = () => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
-  // Placeholder form handler - swap endpoint later
+  const waitlistMutation = trpc.waitlist.join.useMutation({
+    onSuccess: (data) => {
+      setSuccessMessage(data.message);
+      setSubmitted(true);
+      setEmail('');
+      setErrorMessage(null);
+      // Reset after 5 seconds so user can submit another email
+      setTimeout(() => setSubmitted(false), 5000);
+    },
+    onError: (error) => {
+      setErrorMessage(error.message || 'Something went wrong. Please try again.');
+    },
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Replace with actual API endpoint
-    // Example: await fetch('/api/waitlist', { method: 'POST', body: JSON.stringify({ email }) });
-    console.log('Waitlist signup:', email);
-    setSubmitted(true);
-    setEmail('');
-    // Reset after 5 seconds so user can submit another email
-    setTimeout(() => setSubmitted(false), 5000);
+    setErrorMessage(null);
+    waitlistMutation.mutate({ email, source: 'landing-page' });
   };
 
   return (
@@ -1628,7 +1729,7 @@ const CTA = () => {
             >
               <Sparkles size={18} color="#B8977A" />
               <span style={{ fontSize: 15, fontWeight: 500 }}>
-                You&apos;re on the list! We&apos;ll be in touch soon.
+                {successMessage}
               </span>
             </motion.div>
           ) : (
@@ -1650,25 +1751,28 @@ const CTA = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 required
+                disabled={waitlistMutation.isPending}
                 style={{
                   flex: '1 1 260px',
                   minWidth: 200,
                   padding: '16px 20px',
                   borderRadius: 6,
-                  border: `1px solid ${theme.border}`,
+                  border: `1px solid ${errorMessage ? theme.error : theme.border}`,
                   background: '#fff',
                   color: theme.textPrimary,
                   fontSize: 15,
                   outline: 'none',
                   transition: 'border-color 0.2s',
+                  opacity: waitlistMutation.isPending ? 0.7 : 1,
                 }}
                 onFocus={(e) => (e.target.style.borderColor = '#B8977A')}
-                onBlur={(e) => (e.target.style.borderColor = theme.border)}
+                onBlur={(e) => (e.target.style.borderColor = errorMessage ? theme.error : theme.border)}
               />
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                disabled={waitlistMutation.isPending}
+                whileHover={{ scale: waitlistMutation.isPending ? 1 : 1.02 }}
+                whileTap={{ scale: waitlistMutation.isPending ? 1 : 0.98 }}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -1680,13 +1784,28 @@ const CTA = () => {
                   fontSize: 15,
                   fontWeight: 600,
                   border: 'none',
-                  cursor: 'pointer',
+                  cursor: waitlistMutation.isPending ? 'not-allowed' : 'pointer',
                   letterSpacing: '0.01em',
+                  opacity: waitlistMutation.isPending ? 0.7 : 1,
                 }}
               >
-                Join the waitlist
+                {waitlistMutation.isPending ? 'Joining...' : 'Join the waitlist'}
               </motion.button>
             </motion.form>
+          )}
+          
+          {errorMessage && (
+            <motion.p
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              style={{
+                marginTop: 12,
+                fontSize: 14,
+                color: theme.error,
+              }}
+            >
+              {errorMessage}
+            </motion.p>
           )}
         </motion.div>
       </Container>
