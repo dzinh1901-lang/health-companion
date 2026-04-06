@@ -4,6 +4,8 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { invokeLLM } from "./_core/llm";
+import { getDb } from "./db";
+import { waitlist } from "../drizzle/schema";
 
 const HEALTH_SYSTEM_PROMPT = `You are Vitara, a calm, supportive, and knowledgeable AI personal health companion. Your role is to help users understand their health data, provide wellness insights, and offer lifestyle guidance.
 
@@ -301,6 +303,49 @@ export const appRouter = router({
 
       return { days, scores };
     }),
+  }),
+
+  // ─── Waitlist Router ──────────────────────────────────────────────────────
+  waitlist: router({
+    /**
+     * POST a new email to the waitlist.
+     * Validates email format and handles duplicate entries gracefully.
+     */
+    join: publicProcedure
+      .input(
+        z.object({
+          email: z.string().email().max(320),
+          source: z.string().max(128).optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+
+        if (!db) {
+          // If no database is available, log and return success
+          // This allows the form to work in development without a DB
+          console.log("[Waitlist] Email signup (no DB):", input.email, input.source ?? "");
+          return { success: true, message: "You're on the list!" };
+        }
+
+        try {
+          await db.insert(waitlist).values({
+            email: input.email,
+            source: input.source ?? null,
+          });
+          return { success: true, message: "You're on the list!" };
+        } catch (error: unknown) {
+          // Handle duplicate email gracefully
+          if (
+            error instanceof Error &&
+            (error.message.includes("Duplicate entry") || error.message.includes("UNIQUE constraint"))
+          ) {
+            return { success: true, message: "You're already on the list!" };
+          }
+          console.error("[Waitlist] Failed to add email:", error);
+          throw new Error("Failed to join waitlist. Please try again.");
+        }
+      }),
   }),
 });
 

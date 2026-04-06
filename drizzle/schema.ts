@@ -25,4 +25,20 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+/**
+ * Waitlist table for collecting email signups from the landing page.
+ * Stores interested users before they sign up for the full product.
+ */
+export const waitlist = mysqlTable("waitlist", {
+  /** Auto-incremented primary key */
+  id: int("id").autoincrement().primaryKey(),
+  /** Email address of the interested user */
+  email: varchar("email", { length: 320 }).notNull().unique(),
+  /** Optional source/campaign tracking */
+  source: varchar("source", { length: 128 }),
+  /** When the user joined the waitlist */
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type WaitlistEntry = typeof waitlist.$inferSelect;
+export type InsertWaitlistEntry = typeof waitlist.$inferInsert;
