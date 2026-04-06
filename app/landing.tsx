@@ -12,16 +12,12 @@ import {
   ChevronRight,
   Menu,
   X,
-  Mail,
   Smartphone,
   Tablet,
   Monitor,
   BookOpen,
   BarChart3,
   MessageSquare,
-  Globe,
-  ExternalLink,
-  AtSign,
 } from 'lucide-react';
 
 // --- Theme Configuration ---
@@ -152,7 +148,7 @@ const Navigation = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navLinks = ['About', 'Ecosystem', 'Pillars', 'Stories'];
+  const navLinks = ['Philosophy', 'Ecosystem', 'Pillars'];
 
   return (
     <motion.nav
@@ -243,21 +239,28 @@ const Navigation = () => {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 6,
-                padding: '10px 22px',
-                borderRadius: 100,
-                background: theme.textPrimary,
-                color: theme.bg,
-                fontSize: 14,
+                padding: '10px 24px',
+                borderRadius: 6,
+                background: 'transparent',
+                color: theme.textPrimary,
+                fontSize: 12,
                 fontWeight: 600,
                 textDecoration: 'none',
-                letterSpacing: '0.01em',
-                transition: 'transform 0.2s, opacity 0.2s',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                border: `1.5px solid ${theme.textPrimary}`,
+                transition: 'all 0.2s',
               }}
-              onMouseEnter={(e) => ((e.target as HTMLElement).style.opacity = '0.85')}
-              onMouseLeave={(e) => ((e.target as HTMLElement).style.opacity = '1')}
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.background = theme.textPrimary;
+                (e.target as HTMLElement).style.color = theme.bg;
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.background = 'transparent';
+                (e.target as HTMLElement).style.color = theme.textPrimary;
+              }}
             >
-              Join the Waitlist <ArrowRight size={14} />
+              Join Waitlist
             </a>
           </div>
 
@@ -408,32 +411,39 @@ const Hero = () => {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
-            textAlign: 'center',
-            gap: 32,
+            alignItems: 'flex-start',
+            textAlign: 'left',
+            gap: 28,
           }}
         >
-          {/* Badge */}
+          {/* Agentic Transformation Label */}
           <motion.div
             variants={fadeUp}
             className="hero-badge"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 8,
-              padding: '8px 20px',
-              borderRadius: 100,
-              background: theme.surface,
-              border: `1px solid ${theme.border}`,
-              color: theme.textSecondary,
-              fontSize: 13,
-              fontWeight: 500,
-              letterSpacing: '0.04em',
+              gap: 16,
             }}
           >
-            <Sparkles size={13} color={theme.gold} />
-            AI-Powered Personal Transformation
-            <Sparkles size={13} color={theme.gold} />
+            <div
+              style={{
+                width: 48,
+                height: 1,
+                background: theme.textMuted,
+              }}
+            />
+            <span
+              style={{
+                color: theme.textSecondary,
+                fontSize: 13,
+                fontWeight: 500,
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+              }}
+            >
+              Agentic Transformation
+            </span>
           </motion.div>
 
           {/* Headline */}
@@ -441,27 +451,25 @@ const Hero = () => {
             variants={fadeUp}
             className="font-serif"
             style={{
-              fontSize: 'clamp(48px, 7vw, 88px)',
-              fontWeight: 300,
-              lineHeight: 1.08,
-              letterSpacing: '-0.03em',
+              fontSize: 'clamp(42px, 6vw, 72px)',
+              fontWeight: 400,
+              lineHeight: 1.12,
+              letterSpacing: '-0.02em',
               color: theme.textPrimary,
-              maxWidth: 820,
+              maxWidth: 700,
             }}
           >
-            Transform Every Dimension of Your{' '}
-            <em style={{ fontStyle: 'italic', color: theme.gold }}>Life</em>
-            {' '}with AI
+            Transform Every Dimension of Your Life with AI
           </motion.h1>
 
           {/* Subheadline */}
           <motion.p
             variants={fadeUp}
             style={{
-              fontSize: 'clamp(16px, 2vw, 19px)',
-              lineHeight: 1.75,
+              fontSize: 'clamp(16px, 2vw, 18px)',
+              lineHeight: 1.7,
               color: theme.textSecondary,
-              maxWidth: 620,
+              maxWidth: 600,
               fontWeight: 400,
             }}
           >
@@ -472,48 +480,50 @@ const Hero = () => {
           {/* CTA Buttons */}
           <motion.div
             variants={fadeUp}
-            style={{ display: 'flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center' }}
+            style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 8 }}
           >
             <motion.a
               href="#contact"
-              whileHover={{ scale: 1.03, y: -2 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
-                padding: '16px 36px',
-                borderRadius: 100,
-                background: theme.textPrimary,
-                color: theme.bg,
-                fontSize: 16,
+                padding: '16px 32px',
+                borderRadius: 6,
+                background: '#B8977A',
+                color: '#fff',
+                fontSize: 13,
                 fontWeight: 600,
                 textDecoration: 'none',
-                letterSpacing: '0.01em',
-                boxShadow: '0 8px 24px rgba(75,64,56,0.18)',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
               }}
             >
-              Join the Waitlist <ArrowRight size={18} />
+              Join the Waitlist
             </motion.a>
             <motion.a
               href="#ecosystem"
-              whileHover={{ scale: 1.03, y: -2 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
-                padding: '16px 36px',
-                borderRadius: 100,
+                padding: '16px 32px',
+                borderRadius: 6,
                 background: 'transparent',
                 color: theme.textPrimary,
-                fontSize: 16,
-                fontWeight: 500,
+                fontSize: 13,
+                fontWeight: 600,
                 textDecoration: 'none',
-                border: `1.5px solid ${theme.accent}`,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                border: `1.5px solid ${theme.textPrimary}`,
               }}
             >
-              Explore the Ecosystem <ChevronRight size={18} />
+              Explore the Ecosystem
             </motion.a>
           </motion.div>
 
@@ -1558,7 +1568,7 @@ const CTA = () => {
       id="contact"
       style={{
         background: theme.surface,
-        padding: '100px 0',
+        padding: '100px 0 80px',
       }}
     >
       <Container>
@@ -1568,68 +1578,35 @@ const CTA = () => {
           viewport={{ once: true }}
           variants={stagger}
           style={{
-            background: theme.textPrimary,
-            borderRadius: 32,
-            padding: 'clamp(48px, 8vw, 88px)',
             textAlign: 'center',
-            position: 'relative',
-            overflow: 'hidden',
+            maxWidth: 600,
+            margin: '0 auto',
           }}
         >
-          {/* Decorative orbs */}
-          <div
-            style={{
-              position: 'absolute',
-              top: -60,
-              right: -60,
-              width: 280,
-              height: 280,
-              borderRadius: '50%',
-              background: `radial-gradient(circle, rgba(201,169,110,0.12) 0%, transparent 70%)`,
-              pointerEvents: 'none',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              bottom: -40,
-              left: -40,
-              width: 200,
-              height: 200,
-              borderRadius: '50%',
-              background: `radial-gradient(circle, rgba(201,169,110,0.08) 0%, transparent 70%)`,
-              pointerEvents: 'none',
-            }}
-          />
-
-          <motion.div variants={fadeUp}>
-            <Sparkles size={32} color={theme.gold} style={{ marginBottom: 24 }} />
-          </motion.div>
-
           <motion.h2
             variants={fadeUp}
             className="font-serif"
             style={{
-              fontSize: 'clamp(36px, 5vw, 60px)',
-              fontWeight: 300,
-              lineHeight: 1.12,
-              letterSpacing: '-0.03em',
-              color: theme.bg,
-              marginBottom: 20,
+              fontSize: 'clamp(32px, 5vw, 48px)',
+              fontWeight: 400,
+              fontStyle: 'italic',
+              lineHeight: 1.2,
+              letterSpacing: '-0.01em',
+              color: theme.textPrimary,
+              marginBottom: 16,
             }}
           >
-            Begin Your{' '}
-            <em style={{ fontStyle: 'italic', color: theme.gold }}>AUREM</em> Journey
+            Begin your AUREM journey
           </motion.h2>
 
           <motion.p
             variants={fadeUp}
             style={{
-              fontSize: 18,
-              color: 'rgba(247,242,235,0.65)',
+              fontSize: 16,
+              color: theme.textSecondary,
               maxWidth: 520,
-              margin: '0 auto 40px',
-              lineHeight: 1.7,
+              margin: '0 auto 32px',
+              lineHeight: 1.6,
             }}
           >
             Join the waitlist for early access to a new kind of AI-guided transformation experience.
@@ -1640,17 +1617,17 @@ const CTA = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               style={{
-                padding: '20px 32px',
-                background: `rgba(201,169,110,0.15)`,
-                borderRadius: 16,
+                padding: '16px 24px',
+                background: 'rgba(184,151,122,0.15)',
+                borderRadius: 8,
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 12,
-                color: theme.bg,
+                gap: 10,
+                color: theme.textPrimary,
               }}
             >
-              <Sparkles size={20} color={theme.gold} />
-              <span style={{ fontSize: 16, fontWeight: 500 }}>
+              <Sparkles size={18} color="#B8977A" />
+              <span style={{ fontSize: 15, fontWeight: 500 }}>
                 You&apos;re on the list! We&apos;ll be in touch soon.
               </span>
             </motion.div>
@@ -1663,84 +1640,54 @@ const CTA = () => {
                 gap: 12,
                 justifyContent: 'center',
                 flexWrap: 'wrap',
-                maxWidth: 500,
+                maxWidth: 480,
                 margin: '0 auto',
               }}
             >
-              <div
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                required
                 style={{
-                  position: 'relative',
-                  flex: '1 1 280px',
+                  flex: '1 1 260px',
                   minWidth: 200,
+                  padding: '16px 20px',
+                  borderRadius: 6,
+                  border: `1px solid ${theme.border}`,
+                  background: '#fff',
+                  color: theme.textPrimary,
+                  fontSize: 15,
+                  outline: 'none',
+                  transition: 'border-color 0.2s',
                 }}
-              >
-                <Mail
-                  size={18}
-                  color="rgba(247,242,235,0.4)"
-                  style={{
-                    position: 'absolute',
-                    left: 18,
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    pointerEvents: 'none',
-                  }}
-                />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '18px 18px 18px 50px',
-                    borderRadius: 100,
-                    border: '1.5px solid rgba(247,242,235,0.2)',
-                    background: 'rgba(247,242,235,0.05)',
-                    color: theme.bg,
-                    fontSize: 16,
-                    outline: 'none',
-                    transition: 'border-color 0.2s',
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = 'rgba(201,169,110,0.5)')}
-                  onBlur={(e) => (e.target.style.borderColor = 'rgba(247,242,235,0.2)')}
-                />
-              </div>
+                onFocus={(e) => (e.target.style.borderColor = '#B8977A')}
+                onBlur={(e) => (e.target.style.borderColor = theme.border)}
+              />
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.04, y: -2 }}
-                whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 8,
-                  padding: '18px 32px',
-                  borderRadius: 100,
-                  background: theme.gold,
-                  color: theme.textPrimary,
-                  fontSize: 16,
-                  fontWeight: 700,
+                  padding: '16px 28px',
+                  borderRadius: 6,
+                  background: '#B8977A',
+                  color: '#fff',
+                  fontSize: 15,
+                  fontWeight: 600,
                   border: 'none',
                   cursor: 'pointer',
                   letterSpacing: '0.01em',
-                  boxShadow: '0 8px 32px rgba(201,169,110,0.35)',
                 }}
               >
-                Join the Waitlist <ArrowRight size={18} />
+                Join the waitlist
               </motion.button>
             </motion.form>
           )}
-
-          <motion.p
-            variants={fadeUp}
-            style={{
-              fontSize: 13,
-              color: 'rgba(247,242,235,0.4)',
-              marginTop: 24,
-            }}
-          >
-            No spam, ever. Unsubscribe anytime.
-          </motion.p>
         </motion.div>
       </Container>
     </Section>
@@ -1748,31 +1695,42 @@ const CTA = () => {
 };
 
 // --- Footer ---
-const Footer = () => {
-  const links = {
-    Explore: ['About', 'Ecosystem', 'Pillars', 'Stories'],
-    Legal: ['Privacy Policy', 'Terms of Service'],
-    Connect: ['Instagram', 'Twitter', 'LinkedIn'],
-  };
+// Custom SVG social icons since lucide-react doesn't include brand icons
+const LinkedInIcon = ({ size = 20, color = 'currentColor' }: { size?: number; color?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect x="2" y="9" width="4" height="12" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
 
-  // Helper function to get the href for footer links
-  const getFooterLinkHref = (item: string): string => {
-    const linkMap: Record<string, string> = {
-      'Privacy Policy': '#privacy',
-      'Terms of Service': '#terms',
-      'Instagram': '#',
-      'Twitter': '#',
-      'LinkedIn': '#',
-    };
-    return linkMap[item] ?? `#${item.toLowerCase()}`;
-  };
+const InstagramIcon = ({ size = 20, color = 'currentColor' }: { size?: number; color?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+  </svg>
+);
+
+const TwitterIcon = ({ size = 20, color = 'currentColor' }: { size?: number; color?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+  </svg>
+);
+
+const Footer = () => {
+  const navigationLinks = ['About', 'What we do', 'Contact', 'Privacy', 'Terms'];
+  const socialIcons = [
+    { Icon: LinkedInIcon, href: '#', label: 'LinkedIn' },
+    { Icon: InstagramIcon, href: '#', label: 'Instagram' },
+    { Icon: TwitterIcon, href: '#', label: 'Twitter' },
+  ];
 
   return (
     <footer
       style={{
-        background: theme.textPrimary,
-        padding: '72px 0 40px',
-        color: 'rgba(247,242,235,0.6)',
+        background: theme.surface,
+        padding: '60px 0 0',
       }}
     >
       <Container>
@@ -1780,141 +1738,127 @@ const Footer = () => {
           className="footer-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: '2fr 1fr 1fr 1fr',
+            gridTemplateColumns: '2fr 1fr 1fr',
             gap: 48,
-            marginBottom: 64,
+            paddingBottom: 48,
           }}
         >
           {/* Brand */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div
-                style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: '50%',
-                  background: `linear-gradient(135deg, ${theme.gold}, ${theme.accentDark})`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Sparkles size={14} color="#fff" />
-              </div>
-              <span
-                className="font-serif"
-                style={{
-                  fontSize: 22,
-                  fontWeight: 600,
-                  color: theme.bg,
-                  letterSpacing: '0.1em',
-                }}
-              >
-                AUREM
-              </span>
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <span
+              className="font-serif"
+              style={{
+                fontSize: 20,
+                fontWeight: 600,
+                color: theme.textPrimary,
+                letterSpacing: '0.1em',
+              }}
+            >
+              AUREM
+            </span>
             <p
               style={{
                 fontSize: 14,
-                lineHeight: 1.8,
-                color: 'rgba(247,242,235,0.5)',
+                lineHeight: 1.7,
+                color: theme.textSecondary,
                 maxWidth: 280,
               }}
             >
-              Your intelligent companion for growth, wellness, purpose, relationships, and 
-              performance—designed to guide aligned action every day.
+              AI-powered personal transformation for the whole person.
             </p>
+          </div>
+
+          {/* Navigation */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <h4
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: theme.textPrimary,
+                marginBottom: 4,
+              }}
+            >
+              Navigation
+            </h4>
+            {navigationLinks.map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                style={{
+                  color: theme.textSecondary,
+                  textDecoration: 'none',
+                  fontSize: 14,
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = theme.textPrimary)}
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color = theme.textSecondary)
+                }
+              >
+                {item}
+              </a>
+            ))}
+          </div>
+
+          {/* Connect */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <h4
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: theme.textPrimary,
+                marginBottom: 4,
+              }}
+            >
+              Connect
+            </h4>
             <a
               href="mailto:hello@aurem.ai"
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                color: theme.gold,
+                color: theme.textSecondary,
                 textDecoration: 'none',
                 fontSize: 14,
-                fontWeight: 500,
+                transition: 'color 0.2s',
               }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = theme.textPrimary)}
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLElement).style.color = theme.textSecondary)
+              }
             >
-              <Mail size={14} />
               hello@aurem.ai
             </a>
             {/* Social icons */}
-            <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
-              {[
-                { icon: Globe, href: '#', label: 'Website' },
-                { icon: AtSign, href: '#', label: 'Social' },
-                { icon: ExternalLink, href: '#', label: 'External' },
-              ].map(({ icon: Icon, href, label }, i) => (
+            <div style={{ display: 'flex', gap: 16, marginTop: 4 }}>
+              {socialIcons.map(({ Icon, href, label }, i) => (
                 <a
                   key={i}
                   href={href}
+                  aria-label={label}
                   style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 10,
-                    background: 'rgba(247,242,235,0.08)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'rgba(247,242,235,0.5)',
+                    color: theme.textSecondary,
                     textDecoration: 'none',
-                    transition: 'all 0.2s',
+                    transition: 'color 0.2s',
                   }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(201,169,110,0.2)';
-                    (e.currentTarget as HTMLElement).style.color = theme.gold;
+                    (e.currentTarget as HTMLElement).style.color = theme.textPrimary;
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(247,242,235,0.08)';
-                    (e.currentTarget as HTMLElement).style.color = 'rgba(247,242,235,0.5)';
+                    (e.currentTarget as HTMLElement).style.color = theme.textSecondary;
                   }}
                 >
-                  <Icon size={16} />
+                  <Icon size={20} color="currentColor" />
                 </a>
               ))}
             </div>
           </div>
-
-          {/* Link columns */}
-          {Object.entries(links).map(([section, items]) => (
-            <div key={section} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <h4
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  color: 'rgba(247,242,235,0.4)',
-                  marginBottom: 4,
-                }}
-              >
-                {section}
-              </h4>
-              {items.map((item) => (
-                <a
-                  key={item}
-                  href={getFooterLinkHref(item)}
-                  style={{
-                    color: 'rgba(247,242,235,0.55)',
-                    textDecoration: 'none',
-                    fontSize: 14,
-                    transition: 'color 0.2s',
-                  }}
-                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = theme.bg)}
-                  onMouseLeave={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color = 'rgba(247,242,235,0.55)')
-                  }
-                >
-                  {item}
-                </a>
-              ))}
-            </div>
-          ))}
         </div>
 
         <HairlineDivider
-          style={{ background: 'linear-gradient(90deg, transparent, rgba(247,242,235,0.12), transparent)' }}
+          style={{ background: theme.border }}
         />
 
         <div
@@ -1922,17 +1866,47 @@ const Footer = () => {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingTop: 32,
+            paddingTop: 24,
+            paddingBottom: 24,
             flexWrap: 'wrap',
-            gap: 12,
+            gap: 16,
           }}
         >
-          <p style={{ fontSize: 13 }}>
+          <p style={{ fontSize: 13, color: theme.textSecondary }}>
             © {new Date().getFullYear()} AUREM. All rights reserved.
           </p>
-          <p style={{ fontSize: 13 }}>
-            Designed for <span style={{ color: theme.gold }}>transformation</span>
-          </p>
+          <div style={{ display: 'flex', gap: 24 }}>
+            <a
+              href="#privacy"
+              style={{
+                color: theme.textSecondary,
+                textDecoration: 'none',
+                fontSize: 13,
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = theme.textPrimary)}
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLElement).style.color = theme.textSecondary)
+              }
+            >
+              Privacy Policy
+            </a>
+            <a
+              href="#terms"
+              style={{
+                color: theme.textSecondary,
+                textDecoration: 'none',
+                fontSize: 13,
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = theme.textPrimary)}
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLElement).style.color = theme.textSecondary)
+              }
+            >
+              Terms of Service
+            </a>
+          </div>
         </div>
       </Container>
     </footer>
