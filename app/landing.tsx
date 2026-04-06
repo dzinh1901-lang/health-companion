@@ -1549,6 +1549,8 @@ const CTA = () => {
     console.log('Waitlist signup:', email);
     setSubmitted(true);
     setEmail('');
+    // Reset after 5 seconds so user can submit another email
+    setTimeout(() => setSubmitted(false), 5000);
   };
 
   return (
@@ -1753,6 +1755,18 @@ const Footer = () => {
     Connect: ['Instagram', 'Twitter', 'LinkedIn'],
   };
 
+  // Helper function to get the href for footer links
+  const getFooterLinkHref = (item: string): string => {
+    const linkMap: Record<string, string> = {
+      'Privacy Policy': '#privacy',
+      'Terms of Service': '#terms',
+      'Instagram': '#',
+      'Twitter': '#',
+      'LinkedIn': '#',
+    };
+    return linkMap[item] ?? `#${item.toLowerCase()}`;
+  };
+
   return (
     <footer
       style={{
@@ -1848,12 +1862,12 @@ const Footer = () => {
                     transition: 'all 0.2s',
                   }}
                   onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.background = 'rgba(201,169,110,0.2)';
-                    (e.target as HTMLElement).style.color = theme.gold;
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(201,169,110,0.2)';
+                    (e.currentTarget as HTMLElement).style.color = theme.gold;
                   }}
                   onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.background = 'rgba(247,242,235,0.08)';
-                    (e.target as HTMLElement).style.color = 'rgba(247,242,235,0.5)';
+                    (e.currentTarget as HTMLElement).style.background = 'rgba(247,242,235,0.08)';
+                    (e.currentTarget as HTMLElement).style.color = 'rgba(247,242,235,0.5)';
                   }}
                 >
                   <Icon size={16} />
@@ -1880,21 +1894,16 @@ const Footer = () => {
               {items.map((item) => (
                 <a
                   key={item}
-                  href={
-                    item === 'Privacy Policy' ? '#privacy' :
-                    item === 'Terms of Service' ? '#terms' :
-                    item === 'Instagram' || item === 'Twitter' || item === 'LinkedIn' ? '#' :
-                    `#${item.toLowerCase()}`
-                  }
+                  href={getFooterLinkHref(item)}
                   style={{
                     color: 'rgba(247,242,235,0.55)',
                     textDecoration: 'none',
                     fontSize: 14,
                     transition: 'color 0.2s',
                   }}
-                  onMouseEnter={(e) => ((e.target as HTMLElement).style.color = theme.bg)}
+                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = theme.bg)}
                   onMouseLeave={(e) =>
-                    ((e.target as HTMLElement).style.color = 'rgba(247,242,235,0.55)')
+                    ((e.currentTarget as HTMLElement).style.color = 'rgba(247,242,235,0.55)')
                   }
                 >
                   {item}
