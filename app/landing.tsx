@@ -36,6 +36,7 @@ const theme = {
   accentDark: '#B8A48A',
   border: 'rgba(111,98,87,0.14)',
   gold: '#C9A96E',
+  error: '#d97706',
 };
 
 // --- Font Injection ---
@@ -1756,7 +1757,7 @@ const CTA = () => {
                   minWidth: 200,
                   padding: '16px 20px',
                   borderRadius: 6,
-                  border: `1px solid ${errorMessage ? '#d97706' : theme.border}`,
+                  border: `1px solid ${errorMessage ? theme.error : theme.border}`,
                   background: '#fff',
                   color: theme.textPrimary,
                   fontSize: 15,
@@ -1765,7 +1766,7 @@ const CTA = () => {
                   opacity: waitlistMutation.isPending ? 0.7 : 1,
                 }}
                 onFocus={(e) => (e.target.style.borderColor = '#B8977A')}
-                onBlur={(e) => (e.target.style.borderColor = errorMessage ? '#d97706' : theme.border)}
+                onBlur={(e) => (e.target.style.borderColor = errorMessage ? theme.error : theme.border)}
               />
               <motion.button
                 type="submit"
@@ -1800,7 +1801,7 @@ const CTA = () => {
               style={{
                 marginTop: 12,
                 fontSize: 14,
-                color: '#d97706',
+                color: theme.error,
               }}
             >
               {errorMessage}
